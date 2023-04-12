@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 22:15:30 by maheraul          #+#    #+#             */
-/*   Updated: 2023/03/29 03:04:06 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/04/12 19:46:43 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,21 +51,45 @@ int init_struct(int ac, char **env, t_data *data)
 {
 	data->nbcmd = ac - 3;
 	data->path = path_recup(env);
+	data->previous = -1;
 	if (!data->path)
 		return (write(2, "Malloc failed\n", 15));
 	return (0);
 }
 
+/*
+						0			1			2			3			4
+./pipex	"infile"	"cat -e" |	"grep a" |	"lsblk"		"echo aaa"	"wc -l" "outfile"
+
+
+*/
 
 int		redirection(t_data *data, int index, char **av)
 {
-	if (index == 0)
+	if (index != data->nbcmd - 1) // 0 1 2 3
 	{
-		int infilefd = open(av[1], O_RDONLY);
+		dup2(data->fd[1], STDOUT_FILENO);
+	}
+	if (index != 0) // 1 2 3 4
+	{
+		dup2(data->previous, STDIN_FILENO);
+		close(data->previous);
+	}
+	if (index == 0) // 0
+	{
+		int infilefd = open(av[index + 1], O_RDONLY);
 		if (infilefd == -1)
 			return (printf("le fichier d'ouverture n'existe pas\n"));
+		dup2(infilefd, STDIN_FILENO);
 	}
-	if (index == data->nbcmd)
+	if (index == data->nbcmd - 1) // 4
+	{
+		int outfilefd = open(av[index + 3], O_WRONLY | O_CREAT | O_TRUNC );
+		if (outfilefd == -1)
+			return (printf("le fichier d'ecriture n'existe pas\n"));
+		dup2(outfilefd, STDOUT_FILENO);
+	}
+	return 0;
 }
 
 void	*execute(t_data *data, int index, char *cmd, char **env)
@@ -75,8 +99,13 @@ void	*execute(t_data *data, int index, char *cmd, char **env)
 
 	(void)index;
 	tab = ft_split(cmd, ' ');
+	ft_printf("%s", tab[0]);
+	ft_printf("%s", tab[1]);
 	goodcmd = path_command(tab[0], data->path);
-	execve(goodcmd, tab, env);
+	if (goodcmd)
+		execve(goodcmd, tab, env);
+	ft_freetab(tab);
+
 	return (NULL);
 }
 
@@ -87,22 +116,38 @@ void	*ft_pipex(t_data *data, char **av, char **env)
 	int	*pid;
 
 	printf("%i\n", data->nbcmd);
-	pid = malloc(sizeof(int) * data->nbcmd);
-	while (i < data->nbcmd)
+	pid = malloc(sizeof(int) * data->nbcmd); //a prot
+	while (i < data->nbcmd) // i = 0 : cmd = cat ; i = 1 : cmd = grep ; i = 2 : cmd = wc -l
 	{
-		pipe(data->fd);
-		pid[i] = fork();
+		pipe(data->fd); // a securiser ? perror?
+		pid[i] = fork(); // a securiser ? pas besoin passe pas dans boucle si -1
 		if (pid[i] == 0)
 		{
 			redirection(data, i, av);
+			close(data->fd[0]);
+			close(data->fd[1]);
 			execute(data, i, av[i + 2], env);
+			free(pid);
+			ft_freetab(data->path);
+			exit(1);
 		}
 		else if (pid[i] > 0)
 		{
-
+			//printf("%i %i %i\n", data->previous, data->fd[0], data->fd[1]);
+			close(data->fd[1]);
+			if (data->previous != -1)
+				close(data->previous);
+			data->previous = data->fd[0];
 		}
 		i++;
 	}
+	for (int i = 0; i < data->nbcmd; i++)
+		waitpid(pid[i], NULL, 0);
+
+	close(data->fd[0]);
+	free(pid);
+	ft_freetab(data->path);
+	close(data->fd[0]);
 	return (NULL);
 }
 
@@ -110,12 +155,10 @@ int	main(int ac, char **av, char **env)
 {
 	t_data	data;
 
-	(void)av;
 	if (init_struct(ac, env, &data))
 		return (1);
-	// char **tab = ft_split(av[2], ' ');
-	// path_command(tab[0], data.path);
 	ft_pipex(&data, av, env);
+
 	return (0);
 }
 
