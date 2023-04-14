@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 01:27:25 by maheraul          #+#    #+#             */
-/*   Updated: 2023/03/28 02:03:59 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/04/14 02:48:12 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,4 @@ void	*ft_free_tab(char **tab)
 	}
 	free(tab);
 	return (NULL);
-}
-
-int	ft_error()
-{
-	ft_printf("%s", "je sais pas il faut gerer comment les erreur, mais y a une erreur tavu\n");
-	return(0);
 }

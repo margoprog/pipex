@@ -6,7 +6,7 @@
 #    By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/03 00:22:02 by maheraul          #+#    #+#              #
-#    Updated: 2023/03/28 01:28:51 by maheraul         ###   ########.fr        #
+#    Updated: 2023/04/14 02:50:34 by maheraul         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,9 @@ GNL				=	get_next_line/get_next_line.c \
 PRINTF			=	libftprintf.a
 
 SRCS			=	srcs/main.c \
-					srcs/utils.c
+					srcs/utils.c \
+					srcs/pipex.c \
+					srcs/redirection.c
 
 
 SRCS_BONUS			=
