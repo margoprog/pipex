@@ -6,7 +6,7 @@
 #    By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/03 00:22:02 by maheraul          #+#    #+#              #
-#    Updated: 2023/04/14 02:50:34 by maheraul         ###   ########.fr        #
+#    Updated: 2023/04/15 02:14:08 by maheraul         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,16 +39,16 @@ HEAD			=	-Iincludes
 
 CC				=	cc
 
-CFLAGS			=	-Iincludes -Ift_printf -Ilibft -g3 -Wall -Werror -Wextra
+CFLAGS			=	-Iincludes -Ift_printf -Ilibft -Iget_next_line -g3 -Wall -Werror -Wextra
 
 all				:	${NAME}
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) ${OBJS_GNL}
 	@make -C libft
 	@make -C ft_printf
 	@mv libft/libft.a .
 	@mv ft_printf/libftprintf.a .
-	cc $(HEAD) $(OBJS)  ${LIBFT} ${PRINTF} -o $(NAME)
+	cc $(HEAD) $(OBJS)  ${LIBFT} ${OBJS_GNL} ${PRINTF} -o $(NAME)
 
 $(NAME_BONUS) : $(OBJS_BONUS) ${OBJS_GNL}
 	@make -C libft

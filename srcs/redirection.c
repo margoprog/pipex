@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:49:45 by maheraul          #+#    #+#             */
-/*   Updated: 2023/04/14 03:18:38 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/04/15 02:45:16 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,27 @@ int	redirection(t_data *data, int index, char **argv)
 	}
 	if (index == 0)
 	{
-		fd_infile = open(argv[1], O_RDONLY);
+		if(data->heredoc == -1)
+		{
+			fd_infile = data->fd_rdoc[0];
+			fprintf(stderr, "test = %d\n", fd_infile);
+		}
+		else
+			fd_infile = open(argv[1], O_RDONLY);
 		invalid_fd(data, fd_infile, 0);
 		dup2(fd_infile, STDIN_FILENO);
+		close(fd_infile);
 	}
 	if (index == data->nbcmd - 1)
 	{
-		fd_outfile = open(argv[index + 3], O_WRONLY | O_CREAT | O_TRUNC);
+		if(data->heredoc == -1)
+			fd_outfile = open(argv[index + 3], O_WRONLY | O_CREAT | O_APPEND, 0666);
+		else
+			fd_outfile = open(argv[index + 3], O_WRONLY | O_CREAT | O_TRUNC, 0666);
 		invalid_fd(data, fd_outfile, 1);
 		dup2(fd_outfile, STDOUT_FILENO);
+		close(fd_outfile);
 	}
 	return (0);
 }
+

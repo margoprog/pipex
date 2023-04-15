@@ -6,13 +6,12 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 22:25:39 by maheraul          #+#    #+#             */
-/*   Updated: 2023/04/14 02:44:35 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/04/15 02:09:34 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
-
 # include "ft_printf.h"
 # include "libft.h"
 #include <stdlib.h>
@@ -29,6 +28,9 @@ typedef struct t_data
 	int				*pid;
 	int				previous;
 	int				fd[2];
+	int				heredoc;
+	char 			*limiter;
+	int				fd_rdoc[2];
 }					t_data;
 
 //utils
