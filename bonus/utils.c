@@ -1,37 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_realloc.c                                       :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/29 02:06:54 by maheraul          #+#    #+#             */
-/*   Updated: 2023/04/16 04:24:40 by maheraul         ###   ########.fr       */
+/*   Created: 2023/03/28 01:27:25 by maheraul          #+#    #+#             */
+/*   Updated: 2023/04/16 04:15:36 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <stdio.h>
+#include "pipex_bonus.h"
 
-char	*ft_realloc(char *s1, char *s2)
+void	*ft_free_tab(char **tab)
 {
-	int		i;
-	int		j;
-	char	*new;
+	int	i;
 
-	if (!s2)
-		return (ft_strdup(s1));
-	new = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!new)
-		return (NULL);
 	i = 0;
-	j = 0;
-	while (s1[i])
-		new[j++] = s1[i++];
-	i = 0;
-	while (s2[i])
-		new[j++] = s2[i++];
-	new[j] = '\0';
-	free(s1);
-	return (new);
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
+	return (NULL);
 }

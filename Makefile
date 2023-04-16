@@ -6,13 +6,13 @@
 #    By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/03 00:22:02 by maheraul          #+#    #+#              #
-#    Updated: 2023/04/15 02:14:08 by maheraul         ###   ########.fr        #
+#    Updated: 2023/04/16 04:39:37 by maheraul         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			=	pipex
 
-NAME_BONUS		=	checker
+NAME_BONUS		=	pipex_bonus
 
 LIBFT			=	libft.a
 
@@ -27,7 +27,11 @@ SRCS			=	srcs/main.c \
 					srcs/redirection.c
 
 
-SRCS_BONUS			=
+SRCS_BONUS		=	bonus/main.c \
+					bonus/utils.c \
+					bonus/pipex.c \
+					bonus/redirection.c
+
 
 OBJS			=	${SRCS:.c=.o}
 
@@ -43,6 +47,8 @@ CFLAGS			=	-Iincludes -Ift_printf -Ilibft -Iget_next_line -g3 -Wall -Werror -Wex
 
 all				:	${NAME}
 
+bonus			: ${NAME_BONUS}
+
 $(NAME): $(OBJS) ${OBJS_GNL}
 	@make -C libft
 	@make -C ft_printf
@@ -57,7 +63,6 @@ $(NAME_BONUS) : $(OBJS_BONUS) ${OBJS_GNL}
 	@mv ft_printf/libftprintf.a .
 	cc $(HEAD) $(OBJS_BONUS) ${OBJS_GNL} ${LIBFT} ${PRINTF} -o $(NAME_BONUS)
 
-bonus			: ${NAME_BONUS}
 
 
 clean			:

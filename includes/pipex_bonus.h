@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/20 22:25:39 by maheraul          #+#    #+#             */
-/*   Updated: 2023/04/16 04:24:04 by maheraul         ###   ########.fr       */
+/*   Created: 2023/04/16 04:14:21 by maheraul          #+#    #+#             */
+/*   Updated: 2023/04/16 04:24:01 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 # include "ft_printf.h"
 # include "libft.h"
 # include <errno.h>
@@ -28,6 +28,8 @@ typedef struct t_data
 	int		*pid;
 	int		previous;
 	int		fd[2];
+	int		heredoc;
+	int		fd_rdoc[2];
 }			t_data;
 
 //utils

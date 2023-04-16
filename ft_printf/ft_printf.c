@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 03:06:35 by maheraul          #+#    #+#             */
-/*   Updated: 2022/11/26 20:23:30 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/04/15 22:19:26 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_putstr(char *s)
 		s = "(null)";
 	while (s[i])
 	{
-		write(1, &s[i], 1);
+		write(2, &s[i], 1);
 		i++;
 	}
 	return (i);
@@ -34,7 +34,7 @@ int	ft_putstr(char *s)
 
 int	ft_putchar(int c)
 {
-	write(1, &c, 1);
+	write(2, &c, 1);
 	return (1);
 }
 
