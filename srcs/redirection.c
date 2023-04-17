@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:49:45 by maheraul          #+#    #+#             */
-/*   Updated: 2023/04/16 05:17:17 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/04/17 02:12:22 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@ void	invalid_fd(t_data *data, int fd, int file, char *file_name)
 	{
 		ft_freetab(data->path);
 		free(data->pid);
+		close(data->fd[0]);
+		close(data->fd[1]);
+		if (data->previous != -1)
+			close(data->previous);
 		if (file == 0)
 			return (ft_printf("%s: no such file or directory \n", file_name),
 				exit(1));

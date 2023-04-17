@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 22:37:45 by maheraul          #+#    #+#             */
-/*   Updated: 2023/04/16 05:16:46 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/04/17 03:05:41 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	here_doc_child(char *limiter, t_data *data)
 	while (1)
 	{
 		line = get_next_line(0, 0);
+		if (!line || !*line)
+			break ;
 		size = ft_strlen(line) - 1;
 		if (size > 0 && !ft_strncmp(line, limiter, size))
 		{
@@ -87,6 +89,7 @@ int	main(int argc, char **argv, char **env)
 	int		comp;
 
 	comp = 0;
+	data.fd_rdoc[0] = -1;
 	if (argc >= 4)
 		comp = ft_strcmp(argv[1], "here_doc");
 	if ((argc < 5 && comp) || (argc < 6 && !comp))
